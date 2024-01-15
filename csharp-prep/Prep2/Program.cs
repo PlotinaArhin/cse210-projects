@@ -6,17 +6,17 @@ class Program
     {
         Console.Write("Enter your grade percentage: ");
         string answer = Console.ReadLine();
-        int.Parse(answer);
+        int Percentage = int.Parse(answer);
 
-          char letter = ' '; // Variable to store the letter grade
+        char letter = ' '; // Variable to store the letter grade
         string sign = "";  // Variable to store the grade sign (+, -, or "")
 
         // Determine the letter grade
         if (Percentage >= 90)
         {
             letter = 'A';
-    }
-     else if (Percentage >= 80)
+        }
+        else if (Percentage >= 80)
         {
             letter = 'B';
         }

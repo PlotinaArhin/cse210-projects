@@ -2,9 +2,9 @@ using System;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-         DisplayWelcome();
+        DisplayWelcome();
         
         string userName = PromptUserName();
         int userNumber = PromptUserNumber();
@@ -41,3 +41,4 @@ class Program
         Console.WriteLine($"{userName}, the square of your number is {squaredNumber}");
     }
 }
+
