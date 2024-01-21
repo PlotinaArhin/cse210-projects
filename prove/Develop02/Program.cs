@@ -2,102 +2,80 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-class Entry
+class JournalEntry
 {
-    private string _date;
-    private string _promptText;
-    private string _entryText;
+    public string Prompt { get; set; }
+    public string Response { get; set; }
+    public string Date { get; set; }
 
-    public Entry(string date, string promptText, string entryText)
+    public JournalEntry(string prompt, string response, string date)
     {
-        _date = date;
-        _promptText = promptText;
-        _entryText = entryText;
+        Prompt = prompt;
+        Response = response;
+        Date = date;
     }
 
     public override string ToString()
     {
-        return $"Date: {_date}\nPrompt: {_promptText}\nResponse: {_entryText}\n";
-    }
-
-    public string ToCsvString()
-    {
-        return $"{_date},{_promptText},{_entryText}";
+        return $"{Date}\nPrompt: {Prompt}\nResponse: {Response}\n";
     }
 }
 
 class Journal
 {
-    private List<Entry> _entries = new List<Entry>();
-    private List<string> _prompts = new List<string>
-    {
-        "Who was the most interesting person I interacted with today?",
-        "What was the best part of my day?",
-        "How did I see the hand of the Lord in my life today?",
-        "What was the strongest emotion I felt today?",
-        "If I had one thing I could do over today, what would it be?"
-        // Add your own prompts here
-    };
+    private List<JournalEntry> entries;
 
-    public void AddEntry(Entry newEntry)
+    public Journal()
     {
-        _entries.Add(newEntry);
+        entries = new List<JournalEntry>();
     }
 
-    public void DisplayAll()
+    public void AddEntry(string prompt, string response, string date)
     {
-        foreach (var entry in _entries)
+        entries.Add(new JournalEntry(prompt, response, date));
+    }
+
+    public void DisplayEntries()
+    {
+        foreach (var entry in entries)
         {
-            Console.WriteLine(entry.ToString());
+            Console.WriteLine(entry);
         }
     }
 
-    public void SaveToFile(string file)
+    public void SaveToFile(string filename)
     {
-        using (StreamWriter writer = new StreamWriter(file))
+        using (StreamWriter sw = new StreamWriter(filename))
         {
-            foreach (var entry in _entries)
+            foreach (var entry in entries)
             {
-                writer.WriteLine(entry.ToCsvString());
+                sw.WriteLine($"{entry.Date},{entry.Prompt},{entry.Response}");
             }
         }
-
-        Console.WriteLine("Journal saved to file.");
     }
 
-    public void LoadFromFile(string file)
+    public void LoadFromFile(string filename)
     {
-        if (File.Exists(file))
+        entries.Clear();
+        try
         {
-            _entries.Clear();
-
-            using (StreamReader reader = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(filename))
             {
                 string line;
-                while ((line = reader.ReadLine()) != null)
+                while ((line = sr.ReadLine()) != null)
                 {
                     string[] parts = line.Split(',');
                     if (parts.Length == 3)
                     {
-                        Entry loadedEntry = new Entry(parts[0], parts[1], parts[2]);
-                        AddEntry(loadedEntry);
+                        AddEntry(parts[1], parts[2], parts[0]);
                     }
                 }
             }
-
-            Console.WriteLine("Journal loaded from file.");
         }
-        else
+        catch (FileNotFoundException)
         {
-            Console.WriteLine("File not found.");
+            Console.WriteLine("File not found. Creating a new journal.");
         }
-    }
-
-    public string GetRandomPrompt()
-    {
-        Random random = new Random();
-        int index = random.Next(_prompts.Count);
-        return _prompts[index];
     }
 }
 
@@ -115,47 +93,66 @@ class Program
             Console.WriteLine("4. Load the journal from a file");
             Console.WriteLine("5. Exit");
 
-            Console.Write("Enter your choice: ");
-            int choice = int.Parse(Console.ReadLine());
+            Console.Write("Enter your choice (1-5): ");
+            string choice = Console.ReadLine();
 
             switch (choice)
             {
-                case 1:
-                    Console.WriteLine("Selecting a random prompt...");
-                    string randomPrompt = journal.GetRandomPrompt();
+                case "1":
+                    string randomPrompt = GetRandomPrompt();
                     Console.WriteLine($"Prompt: {randomPrompt}");
-                    Console.Write("Enter your response: ");
+                    Console.Write("Your response: ");
                     string response = Console.ReadLine();
-                    Entry newEntry = new Entry(DateTime.Now.ToString(), randomPrompt, response);
-                    journal.AddEntry(newEntry);
+                    string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+                    journal.AddEntry(randomPrompt, response, currentDate);
                     break;
 
-                case 2:
-                    Console.WriteLine("Displaying the journal...\n");
-                    journal.DisplayAll();
+                case "2":
+                    journal.DisplayEntries();
                     break;
 
-                case 3:
+                case "3":
                     Console.Write("Enter a filename to save the journal: ");
                     string saveFilename = Console.ReadLine();
                     journal.SaveToFile(saveFilename);
+                    Console.WriteLine("Journal saved successfully!");
                     break;
 
-                case 4:
+                case "4":
                     Console.Write("Enter a filename to load the journal: ");
                     string loadFilename = Console.ReadLine();
                     journal.LoadFromFile(loadFilename);
+                    Console.WriteLine("Journal loaded successfully!");
                     break;
 
-                case 5:
-                    Console.WriteLine("Exiting the program.");
-                    Environment.Exit(0);
-                    break;
+                case "5":
+                    Console.WriteLine("Exiting the program. Goodbye!");
+                    return;
 
                 default:
-                    Console.WriteLine("Invalid choice. Please enter a valid option.");
+                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 5.");
                     break;
             }
         }
     }
+
+    static string GetRandomPrompt()
+    {
+        // Add your own prompts to the list
+        List<string> prompts = new List<string>
+        {
+            "Who was the most interesting person I interacted with today?",
+            "What was the best part of my day?",
+            "How did I see the hand of the Lord in my life today?",
+            "What was the strongest emotion I felt today?",
+            "If I had one thing I could do over today, what would it be?",
+            "Your custom prompt 1",
+            "Your custom prompt 2"
+        };
+
+        Random random = new Random();
+        int index = random.Next(prompts.Count);
+        return prompts[index];
+    }
 }
+
