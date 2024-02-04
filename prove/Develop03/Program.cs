@@ -38,7 +38,7 @@ class Program
 
     static void DisplayScripture(Scripture scripture)
     {
-        Console.Clear();
+    Console.Cle
         Console.WriteLine(scripture.GetDisplayText());
     }
 }
