@@ -4,7 +4,7 @@ class BreathingActivity : Activity
     {
     }
 
-    public void PerformActivity()
+    public void PerformActivity(int duration) // Pass duration as an argument
     {
         Start();
         Console.WriteLine("Start breathing...");
@@ -18,3 +18,4 @@ class BreathingActivity : Activity
         End();
     }
 }
+

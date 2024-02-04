@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 
 class Program
 {
@@ -27,17 +26,17 @@ class Program
                 Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
             }
 
-            if (choice == 1)
-            {
-                Console.WriteLine("Enter duration for Breathing Activity (in seconds):");
-                int duration;
-                while (!int.TryParse(Console.ReadLine(), out duration) || duration <= 0)
-                {
-                    Console.WriteLine("Invalid input. Please enter a positive integer.");
-                }
-                breathingActivity.duration = duration;
-                breathingActivity.PerformActivity();
-            }
+           if (choice == 1)
+{
+    Console.WriteLine("Enter duration for Breathing Activity (in seconds):");
+    int duration;
+    while (!int.TryParse(Console.ReadLine(), out duration) || duration <= 0)
+    {
+        Console.WriteLine("Invalid input. Please enter a positive integer.");
+    }
+    breathingActivity.PerformActivity(duration); // Pass duration to PerformActivity
+}
+
             else if (choice == 2)
             {
                 Console.WriteLine("Enter duration for Reflection Activity (in seconds):");
@@ -46,20 +45,20 @@ class Program
                 {
                     Console.WriteLine("Invalid input. Please enter a positive integer.");
                 }
-                reflectionActivity.duration = duration;
-                reflectionActivity.PerformActivity();
+                reflectionActivity.PerformActivity(duration); // Pass duration to PerformActivity
             }
-            else if (choice == 3)
-            {
-                Console.WriteLine("Enter duration for Listing Activity (in seconds):");
-                int duration;
-                while (!int.TryParse(Console.ReadLine(), out duration) || duration <= 0)
-                {
-                    Console.WriteLine("Invalid input. Please enter a positive integer.");
-                }
-                listingActivity.duration = duration;
-                listingActivity.PerformActivity();
-            }
+            
+           else if (choice == 3)
+{
+              Console.WriteLine("Enter duration for Listing Activity (in seconds):");
+              int duration;
+              while (!int.TryParse(Console.ReadLine(), out duration) || duration <= 0)
+    {
+               Console.WriteLine("Invalid input. Please enter a positive integer.");
+    }
+    listingActivity.PerformActivity(duration); // Pass duration to PerformActivity
+           }
+
             else if (choice == 4)
             {
                 Console.WriteLine("Exiting program...");
@@ -68,3 +67,4 @@ class Program
         }
     }
 }
+
