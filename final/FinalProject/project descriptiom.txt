@@ -1,0 +1,7 @@
+We are working on an open-ended project to develop a Task Manager application. 
+The Task Manager will allow users to organize and track their tasks efficiently. 
+So far, we have completed the initial design phase, including identifying the main classes such as Task, User, and TaskList. 
+We have also outlined the key behaviors each class will need to support, such as adding tasks, marking tasks as completed, and displaying task lists. 
+Additionally, we have created empty shells for these classes and methods to lay the foundation for the implementation phase. 
+Our program currently runs without compile errors, although it lacks meaningful interaction as we are still in the early stages of development. 
+Our next steps will involve fleshing out the methods for each class and implementing the user interface to provide a functional Task Manager application.
