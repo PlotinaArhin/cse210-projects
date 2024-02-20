@@ -40,6 +40,10 @@ public abstract class Goal
             Console.WriteLine($"Goal {name} is already completed. No points received.");
         }
     }
+
+    // Marking the 'completed' field as virtual to ensure proper serialization in derived classes
+    // Note: This assumes all derived classes use the 'completed' field, adjust as needed
+    public virtual bool Completed => completed;
 }
 
 // Derived class for eternal goals
